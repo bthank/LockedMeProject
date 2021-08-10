@@ -10,13 +10,22 @@ public class LockedMeApplication {
 	
 	public static void main(String[] args) {
 		
+		// instantiating LockedMeConsole object which encapsulates user prompt handling
 		LockedMeConsole lockedMeConsole = new LockedMeConsole();
+		// instantiating LockedMeUserInput object which encapsulates user input handling
 		LockedMeUserInput lockedMeUserInput = new LockedMeUserInput();
+		// instantiating FileManager object which encapsulates file handling functions
+		FileManager fileManager = new FileManager();
 		
+		// variable to hold user's processing selection
 		char choice = ' ';
+		// variable to hold the directory path object
 		File directoryPath = null;
+		// variable to hold the file name to process
 		String fileName = "";
+		// variable to hold the # of lines to add to a file
 		int numLinesInFile = 0;
+		// collection variable to hold the list of file names in a directory
 		List<String> fileNames = new ArrayList<>(); 
 		
 		
@@ -33,14 +42,7 @@ public class LockedMeApplication {
 			case '1': 
 				lockedMeConsole.displayEnterDirectoryPrompt();
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
-				File[] files = directoryPath.listFiles();
-				for(File file: files) {
-					fileNames.add(file.getName());
-				}
-				System.out.println("\n\tList of files and directories in the specified directory:\n");
-				for (int i=0; i < fileNames.size(); i++) {
-					System.out.println("\t\t" + fileNames.get(i));
-				}
+				fileManager.listAllFilesInDirectory(directoryPath);
 				break;
 			case '2':
 				lockedMeConsole.displayEnterDirectoryPrompt();
