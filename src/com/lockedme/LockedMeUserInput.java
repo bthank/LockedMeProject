@@ -13,7 +13,7 @@ public class LockedMeUserInput {
 	private File directoryPath;
 	private String fileName;
 	private int numLinesInFile;
-	private List<String> fileContent;
+
 	
 	
 	LockedMeUserInput(){
@@ -35,10 +35,11 @@ public class LockedMeUserInput {
 		this.fileName = sc.nextLine();
 		return this.fileName;
 	}
-	
+		
 	public int getNumLinesInFileFromUser() {
 		if (sc.hasNextInt()) {
 			this.numLinesInFile = sc.nextInt();
+			sc.nextLine();
 		} else {
 			this.numLinesInFile = -1;
 		}
@@ -46,20 +47,14 @@ public class LockedMeUserInput {
 		return this.numLinesInFile;
 	}
 	
-	public void initFileContentList() {
-		this.fileContent = new ArrayList<String>();
-	}
-	
 	public String getLineToAddToFileFromUser() {
 		String line = sc.nextLine();
 		return line;
 	}
 	
-	public void addLineToFileContentList(String line) {
-		this.fileContent.add(line);
-	}
 	
 	public void closeScanner() {
-		this.sc.close();
+		if (sc != null)
+			this.sc.close();
 	}
 }
