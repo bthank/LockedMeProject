@@ -1,6 +1,10 @@
 package com.lockedme;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +12,7 @@ import java.util.List;
 public class LockedMeApplication {
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		// instantiating LockedMeConsole object which encapsulates user prompt handling
 		LockedMeConsole lockedMeConsole = new LockedMeConsole();
@@ -25,10 +29,13 @@ public class LockedMeApplication {
 		String fileName = "";
 		// variable to hold the # of lines to add to a file
 		int numLinesInFile = 0;
+		// collection variable to hold the lines to write to a file
+		List<String> fileLines;
+		
 		// collection variable to hold the list of file names in a directory
 		List<String> fileNames = new ArrayList<>(); 
 		
-		
+		// variable holding a sentinal value determining when to exit loop
 		boolean doFileProcessing = true;
 		while(doFileProcessing) {
 
@@ -52,15 +59,37 @@ public class LockedMeApplication {
 				
 				String path = directoryPath.getAbsolutePath() + "/" + fileName;
 				File f = new File(path);
+				f.getParentFile().mkdirs(); 
+				f.createNewFile();
 
 				
 				lockedMeConsole.displayEnterNumFileContentLinesPrompt();
 				numLinesInFile = lockedMeUserInput.getNumLinesInFileFromUser();
 				int cnt = numLinesInFile;
+				fileLines = new ArrayList<>();
 				if (cnt > 0) {
 					for (int i=1; i <= cnt; i++) {
 						lockedMeConsole.displayEnterFileContentPrompt(i++);
+						String line = lockedMeUserInput.getLineToAddToFileFromUser();
+						fileLines.add(line);
 					}
+					
+					
+					File fout = new File(path);
+					FileOutputStream fos = new FileOutputStream(fout);
+				 
+					BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+				 
+					for (int i = 0; i < (cnt - 1); i++) {
+						String line = fileLines.get(i);
+						bw.write(line);
+						bw.newLine();
+					}
+				 
+					bw.close();
+					
+					
+					 
 				} else {
 					System.out.println("You entered an invalid # of lines value.  Terminating file processing.");
 					break;
