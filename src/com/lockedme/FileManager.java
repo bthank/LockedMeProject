@@ -15,11 +15,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The FileManager class encapsulates file handling functions for the LockedMeApplication
+ * @author Binu T
+ *
+ */
 public class FileManager {
 	
 	private List<String> fileNames; 
 	
-	
+	/**
+	 * The directoryExists method checks whether the input path exists or not.
+	 * 
+	 * @param directoryPath (File)
+	 * @return boolean
+	 */
 	public boolean directoryExists(File directoryPath) {
 		Path path = Paths.get(directoryPath.getAbsolutePath());
 		boolean exists = true;
@@ -29,41 +39,45 @@ public class FileManager {
 		return exists;
 	}
 	
+	/**
+	 * The listAllFilesInDirectoryInASCOrder method encapsulates the logic to list all files in a user specified directory in ascending order.
+	 * 
+	 * @param directoryPath (File)
+	 * @return void
+	 */
 	public void listAllFilesInDirectoryInASCOrder(File directoryPath) {
 		fileNames = new ArrayList<>(); 
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "Terminating directory list processing.     * * *\n");
+	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating directory list processing.     * * *\n");
 	    	return;
 		}
 		
-		
+		// initialize a path object before passing it to Files.newDirectoryStream
 		Path path = Paths.get(directoryPath.getAbsolutePath());
 		
+		// use Files.newDirectoryStream to stream the list of files in the directory
 	    try(DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.*")){
 	        
+	    	// iterate through the stream and save each file to the fileNames ArrayList
 	        for (Path entry: stream){
-	 //           log.info("working on file " + entry.getFileName());
-
 	            fileNames.add(entry.getFileName().toString());
 	        }
 	    }
+	    // catch exceptions from most specific to least specific
 	    catch (NoSuchFileException e) {
 	    	System.out.println("\n\t* * *     No such file found:  " + e.getMessage() + "     * * *\n");
-	    	return;
-	    	
+	    	return;   	
 	    }
 	    catch (IOException e){
 	    	System.out.println("\n\t* * *     An I/O error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
-	    	return;
-	         
+	    	return;         
 	    }		
 	    catch (Exception e){
 	    	System.out.println("\n\t* * *     An error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
-	    	return;
-	         
+	    	return;	         
 	    }		
 		
 		
@@ -84,12 +98,22 @@ public class FileManager {
 		System.out.println("\n\t* * *     All files in directory successfully listed     * * *\n");
 	}
 
+	/**
+	 * The addAFileToDirectory method encapsulates logic to add a new file with content to a directory
+	 * 
+	 * @param directoryPath (File)
+	 * @param fileName (String)
+	 * @param numLinesToAddToFile (int)
+	 * @param fileLines (List<String>)
+	 * @return void
+	 * @throws IOException
+	 */
 	public void addAFileToDirectory(File directoryPath,String fileName,int numLinesToAddToFile,List<String> fileLines) throws IOException {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "Terminating add file processing.     * * *\n");
+	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating add file processing.     * * *\n");
 	    	return;
 		}
 		
@@ -114,12 +138,19 @@ public class FileManager {
 		
 	}
 	
+	/**
+	 * The searchForFileInDirectory method encapsulates logic to search for a file in a directory.
+	 * 
+	 * @param directoryPath (File)
+	 * @param fileName (String)
+	 * @return void
+	 */
 	public void searchForFileInDirectory(File directoryPath,String fileName) {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "Terminating search file processing.     * * *\n");
+	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating search file processing.     * * *\n");
 	    	return;
 		}
 		
@@ -128,13 +159,19 @@ public class FileManager {
 		System.out.println("\n\t* * *     File successfully found.     * * *\n");
 	}
 	
-	
+	/**
+	 * The deleteFileFromDirectory method encapsulates logic to delete a file from a directory.
+	 * 
+	 * @param directoryPath (File)
+	 * @param fileName (String)
+	 * @return void
+	 */
 	public void deleteFileFromDirectory(File directoryPath,String fileName) {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "Terminating delete file processing.     * * *\n");
+	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating delete file processing.     * * *\n");
 	    	return;
 		}
 		
