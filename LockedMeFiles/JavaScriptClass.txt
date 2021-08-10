@@ -1,0 +1,4 @@
+This is a file about the JavaScript class.
+JavaScript is the most important language for Web Development.
+Is that true?
+I think so.

@@ -1,0 +1,3 @@
+This is a file about Python fundamentals.
+We will cover this topic over the course of 7 weeks.
+A final exam grade of 80% is required in order to pass.
