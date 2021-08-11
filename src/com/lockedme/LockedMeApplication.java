@@ -18,12 +18,10 @@ public class LockedMeApplication {
 	
 	public static void main(String[] args) throws IOException {
 		
-		// instantiating LockedMeConsole object which encapsulates user prompt handling
-		LockedMeConsole lockedMeConsole = new LockedMeConsole();
+
 		// instantiating LockedMeUserInput object which encapsulates user input handling
 		LockedMeUserInput lockedMeUserInput = new LockedMeUserInput();
-		// instantiating FileManager object which encapsulates file handling functions
-		FileManager fileManager = new FileManager();
+
 		
 		// variable to hold user's processing selection
 		char choice = ' ';
@@ -36,18 +34,15 @@ public class LockedMeApplication {
 		// collection variable to hold the lines to write to a file
 		List<String> fileLines;
 		
-		// collection variable to hold the list of file names in a directory
-	//	List<String> fileNames = new ArrayList<>(); 
-		
 		// variable holding a sentinal value determining when to continue in or exit loop
 		boolean doFileProcessing = true;
 		while(doFileProcessing) {
 
 			// LockedMeConsole method to display main menu for the application
-			lockedMeConsole.displayMenu();
+			LockedMeConsole.displayMenu();
 			
 			// LockedMeConsole method to display a prompt for the user to enter their file processing choice
-			lockedMeConsole.displayEnterChoicePrompt();
+			LockedMeConsole.displayEnterChoicePrompt();
 			// LockedMeInput method to display to get the user's file processing choice from console input
 			choice = lockedMeUserInput.getFileProcessingChoiceFromUser();
 			
@@ -57,26 +52,26 @@ public class LockedMeApplication {
 			// case 1 is for listing all files in a directory
 			case '1': 
 				// call LockedMeConsole method to prompt user for directory path
-				lockedMeConsole.displayEnterDirectoryPrompt();
+				LockedMeConsole.displayEnterDirectoryPrompt();
 				// call LockedMeUser method to get directory path from console user input
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
 				// call FileManager method to list all files in the directory
-				fileManager.listAllFilesInDirectoryInASCOrder(directoryPath);
+				FileManager.listAllFilesInDirectoryInASCOrder(directoryPath);
 				break;
 			
 			// case 2 is for adding a new file to a directory
 			case '2':
 				// call LockedMeConsole method to prompt user for directory path
-				lockedMeConsole.displayEnterDirectoryPrompt();
+				LockedMeConsole.displayEnterDirectoryPrompt();
 				// call LockedMeUser method to get directory path from console user input
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
 				// call LockedMeConsole method to prompt user for file name to add
-				lockedMeConsole.displayEnterFileNamePrompt();
+				LockedMeConsole.displayEnterFileNamePrompt();
 				// call LockedMeUserInput method to get file name from console user input
 				fileName = lockedMeUserInput.getFileNameFromUser();
 				
 				// call LockedMeConsole method to prompt user for the number of lines to add to the new file that is being added
-				lockedMeConsole.displayEnterNumFileContentLinesPrompt();
+				LockedMeConsole.displayEnterNumFileContentLinesPrompt();
 				// call LockedMeUserInput method to get the number of lines to add to the new file from console user input
 				numLinesToAddToFile = lockedMeUserInput.getNumLinesInFileFromUser();
 				
@@ -86,7 +81,7 @@ public class LockedMeApplication {
 				// if # of lines to add to file is > 0, then prompt user for each line and add it to the fileLines ArrayList
 				if (numLinesToAddToFile > 0) {
 					for (int i=1; i <= numLinesToAddToFile; i++) {
-						lockedMeConsole.displayEnterFileContentPrompt(i);
+						LockedMeConsole.displayEnterFileContentPrompt(i);
 						String line = lockedMeUserInput.getLineToAddToFileFromUser();
 						fileLines.add(line);
 					}
@@ -97,28 +92,30 @@ public class LockedMeApplication {
 				}
 				
 				// call fileManager method to add the new file with content to the directory specified by the user
-				fileManager.addAFileToDirectory(directoryPath,fileName,numLinesToAddToFile,fileLines);
+				FileManager.addAFileToDirectory(directoryPath,fileName,numLinesToAddToFile,fileLines);
 				
 				break;
 				
 			// case 3 is for searching for a file in a directory
 			case '3':
-				lockedMeConsole.displayEnterDirectoryPrompt();
+				LockedMeConsole.displayEnterDirectoryPrompt();
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
-				lockedMeConsole.displayEnterFileNamePrompt();
+				LockedMeConsole.displayEnterFileNamePrompt();
 				fileName = lockedMeUserInput.getFileNameFromUser();
+				
+				FileManager.searchForFileInDirectory(directoryPath, fileName);
 
 				break;
 				
 			// case 4 is for deleting a file in a directory
 			case '4':
-				lockedMeConsole.displayEnterDirectoryPrompt();
+				LockedMeConsole.displayEnterDirectoryPrompt();
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
-				lockedMeConsole.displayEnterFileNamePrompt();
+				LockedMeConsole.displayEnterFileNamePrompt();
 				fileName = lockedMeUserInput.getFileNameFromUser();
 
 				// call FileManager method to delete a file from the directory specified 
-				fileManager.deleteFileFromDirectory(directoryPath, fileName);
+				FileManager.deleteFileFromDirectory(directoryPath, fileName);
 				
 				break;
 				
@@ -134,7 +131,7 @@ public class LockedMeApplication {
 			
 		}
 		
-		// perform clean up activities 
+
 		
 		// close the scanner object
 		lockedMeUserInput.closeScanner();

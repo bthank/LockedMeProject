@@ -9,48 +9,43 @@ package com.lockedme;
  */
 public class LockedMeConsole {
 	
-	 
 	
-	LockedMeConsole(){
-		 
-	}
-	
-	public void displayMenu() {
+	public static void displayMenu() {
 		
 		System.out.println("\n===============================================================\n");
-		System.out.println("\t\t\tLOCKEDME.COM");
+		System.out.println("\t\t\tLOCKEDME.COM by Binu Thankachan");
 		System.out.println("\n===============================================================");
 		System.out.println("\nPlease select your file processing choice:\n");
 		System.out.println("1. List files in a directory in ascending order");
-		System.out.println("2. Add a file to a directory");
-		System.out.println("3. Search for a file in a directory");
-		System.out.println("4. Delete a file from a directory");
+		System.out.println("2. Add a file to a directory  (case sensitive add)");
+		System.out.println("3. Search for a file in a directory  (case sensitive search)");
+		System.out.println("4. Delete a file from a directory  (case sensitive delete)");
 		System.out.println("5. Exit file processing");
 		System.out.println("===============================================================\n");
 		
 	}
 	
-	public void displayEnterChoicePrompt() {
+	public static void displayEnterChoicePrompt() {
 		
 		System.out.println("Enter choice (1-5): ");
 	}
 	
-	public void displayEnterDirectoryPrompt() {
+	public static void displayEnterDirectoryPrompt() {
 		
 		System.out.println("Enter directory file path: ");
 	}
 	
-	public void displayEnterFileNamePrompt() {
+	public static void displayEnterFileNamePrompt() {
 		
 		System.out.println("Enter file name: ");
 	}
 	
-	public void displayEnterNumFileContentLinesPrompt() {
+	public static void displayEnterNumFileContentLinesPrompt() {
 		
 		System.out.println("Enter # of lines to add to file: ");
 	}
 	
-	public void displayEnterFileContentPrompt(int lineNum) {
+	public static void displayEnterFileContentPrompt(int lineNum) {
 		
 		System.out.println("Enter line " + lineNum + ": ");
 	}	 

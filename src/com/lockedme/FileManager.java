@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class FileManager {
 	
-	private List<String> fileNames; 
+	private static List<String> fileNames; 
 	
 	/**
 	 * The directoryExists method checks whether the input path exists or not.
@@ -29,7 +29,7 @@ public class FileManager {
 	 * @param directoryPath (File)
 	 * @return boolean
 	 */
-	public boolean directoryExists(File directoryPath) {
+	public static boolean directoryExists(File directoryPath) {
 		Path path = Paths.get(directoryPath.getAbsolutePath());
 		boolean exists = true;
 		if (!Files.exists(path)) {
@@ -44,13 +44,13 @@ public class FileManager {
 	 * @param directoryPath (File)
 	 * @return void
 	 */
-	public void listAllFilesInDirectoryInASCOrder(File directoryPath) {
+	public static void listAllFilesInDirectoryInASCOrder(File directoryPath) {
 		fileNames = new ArrayList<>(); 
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating directory list processing.     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating directory list processing.     * * *\n");
 	    	return;
 		}
 		
@@ -62,32 +62,33 @@ public class FileManager {
 	        
 	    	// iterate through the stream and save each file to the fileNames ArrayList in lowercase format for sorting
 	        for (Path entry: stream){
-	            fileNames.add(entry.getFileName().toString().toLowerCase());
+	            fileNames.add(entry.getFileName().toString());
 	        }
 	    }
 	    // catch exceptions from most specific to least specific
 	    catch (NoSuchFileException e) {
-	    	System.out.println("\n\t* * *     No such file found:  " + e.getMessage() + "     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such file found:  " + e.getMessage() + "     * * *\n");
 	    	return;   	
 	    }
 	    catch (IOException e){
-	    	System.out.println("\n\t* * *     An I/O error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     An I/O error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
 	    	return;         
 	    }		
 	    catch (Exception e){
-	    	System.out.println("\n\t* * *     An error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     An error occurred while retrieving file:  " + e.getMessage() + "     * * *\n");
 	    	return;	         
 	    }		
 		
 		// call Collections class sort method to sort the ArrayList in ascending order
 		Collections.sort(fileNames);
-		System.out.println("\n\tList of files in the specified directory in ascending order:\n");
+		System.out.println("\n\tList of files in the specified directory in case sensitive ascending order:\n");
 		// for loop to iterate through fileNames collection and display each file name
 		for (int i=0; i < fileNames.size(); i++) {
 			System.out.println("\t\t" + fileNames.get(i));
 		}
 		
-		System.out.println("\n\t* * *     All files in directory successfully listed     * * *\n");
+		System.out.println("\n\n\t\t* * *     All files in directory successfully listed     * * *\n");
+		return;
 	}
 
 	/**
@@ -100,12 +101,12 @@ public class FileManager {
 	 * @return void
 	 * @throws IOException
 	 */
-	public void addAFileToDirectory(File directoryPath,String fileName,int numLinesToAddToFile,List<String> fileLines) throws IOException {
+	public static void addAFileToDirectory(File directoryPath,String fileName,int numLinesToAddToFile,List<String> fileLines) throws IOException {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating add file processing.     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating add file processing.     * * *\n");
 	    	return;
 		}
 		// build path string variable with directory plus filename
@@ -132,29 +133,47 @@ public class FileManager {
 		// close buffered writer object at the end
 		bw.close();
 		
-		System.out.println("\n\t* * *     File successfully added.     * * *\n");
+		System.out.println("\n\n\t\t* * *     File successfully added.     * * *\n");
+		return;
 		
 	}
 	
 	/**
-	 * The searchForFileInDirectory method encapsulates logic to search for a file in a directory.
+	 * The searchForFileInDirectory method encapsulates logic to search for a file in a directory using case sensitivity.
 	 * 
 	 * @param directoryPath (File)
 	 * @param fileName (String)
 	 * @return void
 	 */
-	public void searchForFileInDirectory(File directoryPath,String fileName) {
+	public static void searchForFileInDirectory(File directoryPath,String fileName) {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating search file processing.     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating search file processing.     * * *\n");
 	    	return;
 		}
 		
+		// build path string variable with directory plus filename
+		String path = directoryPath.getAbsolutePath() + "/" + fileName;
+		// instantiate a fout File object using path
+		File fout = new File(path);
 		
+		try {
+			if (fout.exists() && fout.getCanonicalFile().getName().equals(fout.getName())) {
+				System.out.println("\n\n\t\t* * *     FILE FOUND     * * *\n");
 		
-		System.out.println("\n\t* * *     File successfully found.     * * *\n");
+			} else {
+				System.out.println("\n\n\t\t* * *     FILE NOT FOUND     * * *\n");
+				
+			}
+		}
+		catch(Exception e) {
+			System.out.println("\n\n\t\tAn error occurred while searching for the file.  No file found.");
+			return;
+		}
+		
+		return;
 	}
 	
 	/**
@@ -164,40 +183,45 @@ public class FileManager {
 	 * @param fileName (String)
 	 * @return void
 	 */
-	public void deleteFileFromDirectory(File directoryPath,String fileName) {
+	public static void deleteFileFromDirectory(File directoryPath,String fileName) {
 		
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating delete file processing.     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating delete file processing.     * * *\n");
 	    	return;
 		}
 		
-		// add absolute path of directory to file name and store in path variabe
+		// build path string variable with directory plus filename
 		String path = directoryPath.getAbsolutePath() + "/" + fileName;
-		try
-        {
-			// call Files method to delete the file specified if it it exists
-            Files.deleteIfExists(Paths.get(path));
-        }
-		// catch exceptions from most specific to least specific
+		// instantiate a fout File object using path
+		File fout = new File(path);
+		
+		try {
+			if (fout.exists() && fout.getCanonicalFile().getName().equals(fout.getName())) {
+				fout.delete();
+				System.out.println("\n\n\t\t* * *     FILE SUCCESSFULLY DELETED     * * *\n");
+				return;
+		
+			} else {
+				System.out.println("\n\n\t\t* * *     FILE NOT FOUND     * * *\n");
+				return;
+				
+			}
+		}
+		// catch exceptions in most specific to least specific hierarchy
         catch(NoSuchFileException e)
         {
-            System.out.println("No such file/directory exists");
+            System.out.println("\n\n\t\tNo such file/directory exists");
         }
-//        catch(DirectoryNotEmptyException e)
-//        {
-//            System.out.println("Directory is not empty.");
-//        }
         catch(IOException e)
         {
-            System.out.println("Invalid permissions.");
+            System.out.println("\n\n\t\tInvalid permissions.");
         }
         catch(Exception e)
         {
-            System.out.println("An error occurred during delete file processing.");
+            System.out.println("\n\n\t\tAn error occurred during delete file processing.");
         }
 
-		System.out.println("\n\t* * *     File successfully deleted.     * * *\n");
 	}
 }
