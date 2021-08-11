@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 
  * The  LockedMeApplication class is the main entry point for the application
- * @author Binu T
+ * @author Binu Thankachan
  *
  *
  */
@@ -38,12 +38,12 @@ public class LockedMeApplication {
 		boolean doFileProcessing = true;
 		while(doFileProcessing) {
 
-			// LockedMeConsole method to display main menu for the application
+			// LockedMeConsole static method to display main menu for the application
 			LockedMeConsole.displayMenu();
 			
-			// LockedMeConsole method to display a prompt for the user to enter their file processing choice
+			// LockedMeConsole static method to display a prompt for the user to enter their file processing choice
 			LockedMeConsole.displayEnterChoicePrompt();
-			// LockedMeInput method to display to get the user's file processing choice from console input
+			// LockedMeUserInput method to display a prompt to get the user's file processing choice from console input
 			choice = lockedMeUserInput.getFileProcessingChoiceFromUser();
 			
 			// switch/case statement to process each file processing choice
@@ -51,26 +51,26 @@ public class LockedMeApplication {
 			
 			// case 1 is for listing all files in a directory
 			case '1': 
-				// call LockedMeConsole method to prompt user for directory path
+				// call LockedMeConsole static method to prompt user for directory path
 				LockedMeConsole.displayEnterDirectoryPrompt();
-				// call LockedMeUser method to get directory path from console user input
+				// call LockedMeUserInput method to get directory path from console user input
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
-				// call FileManager method to list all files in the directory
+				// call FileManager static method to list all files in the directory
 				FileManager.listAllFilesInDirectoryInASCOrder(directoryPath);
 				break;
 			
 			// case 2 is for adding a new file to a directory
 			case '2':
-				// call LockedMeConsole method to prompt user for directory path
+				// call LockedMeConsole static method to prompt user for directory path
 				LockedMeConsole.displayEnterDirectoryPrompt();
-				// call LockedMeUser method to get directory path from console user input
+				// call LockedMeUserInput method to get directory path from console user input
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
-				// call LockedMeConsole method to prompt user for file name to add
+				// call LockedMeConsole static method to prompt user for file name to add
 				LockedMeConsole.displayEnterFileNamePrompt();
 				// call LockedMeUserInput method to get file name from console user input
 				fileName = lockedMeUserInput.getFileNameFromUser();
 				
-				// call LockedMeConsole method to prompt user for the number of lines to add to the new file that is being added
+				// call LockedMeConsole static method to prompt user for the number of lines to add to the new file that is being added
 				LockedMeConsole.displayEnterNumFileContentLinesPrompt();
 				// call LockedMeUserInput method to get the number of lines to add to the new file from console user input
 				numLinesToAddToFile = lockedMeUserInput.getNumLinesInFileFromUser();
@@ -81,8 +81,11 @@ public class LockedMeApplication {
 				// if # of lines to add to file is > 0, then prompt user for each line and add it to the fileLines ArrayList
 				if (numLinesToAddToFile > 0) {
 					for (int i=1; i <= numLinesToAddToFile; i++) {
+						// call LockedMeConsole static method to prompt user for a line to add to the file
 						LockedMeConsole.displayEnterFileContentPrompt(i);
+						// call LockedMeUserInput method to get the line from console user input
 						String line = lockedMeUserInput.getLineToAddToFileFromUser();
+						// use collection add method to add the line to fileLines ArrayList
 						fileLines.add(line);
 					}
 										 
@@ -91,36 +94,46 @@ public class LockedMeApplication {
 					break;
 				}
 				
-				// call fileManager method to add the new file with content to the directory specified by the user
+				// call FileManager static method to add the new file with content to the directory specified by the user
 				FileManager.addAFileToDirectory(directoryPath,fileName,numLinesToAddToFile,fileLines);
 				
 				break;
 				
 			// case 3 is for searching for a file in a directory
 			case '3':
+				// call LockedMeConsole static method to prompt user for directory path
 				LockedMeConsole.displayEnterDirectoryPrompt();
-				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
+				// call LockedMeUserInput method to get directory path from console user input
+				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();
+				// call LockedMeConsole static method to prompt user for file name to search for
 				LockedMeConsole.displayEnterFileNamePrompt();
+				// call LockedMeUserInput method to get file name from console user input
 				fileName = lockedMeUserInput.getFileNameFromUser();
 				
+				// call FileManager static method to search for a file in a directory
 				FileManager.searchForFileInDirectory(directoryPath, fileName);
 
 				break;
 				
 			// case 4 is for deleting a file in a directory
 			case '4':
+				// call LockedMeConsole static method to prompt user for directory path
 				LockedMeConsole.displayEnterDirectoryPrompt();
+				// call LockedMeUserInput method to get directory path from console user input
 				directoryPath = lockedMeUserInput.getDirectoryPathFromUser();	
+				// call LockedMeConsole static method to prompt user for file name to search for 
 				LockedMeConsole.displayEnterFileNamePrompt();
+				// call LockedMeUserInput method to get file name from console user input
 				fileName = lockedMeUserInput.getFileNameFromUser();
 
-				// call FileManager method to delete a file from the directory specified 
+				// call FileManager static method to delete a file from the directory specified 
 				FileManager.deleteFileFromDirectory(directoryPath, fileName);
 				
 				break;
 				
 			// case 5 is for exiting file processing loop
 			case '5':
+				// set sentinal value for loop processing to false so that it exits the loop
 				doFileProcessing = false;
 				System.out.println("\n\t* * *     Exiting file processing.  Goodbye.    * * *\n");
 
@@ -135,6 +148,7 @@ public class LockedMeApplication {
 		
 		// close the scanner object
 		lockedMeUserInput.closeScanner();
+		System.exit(0);
 
 		
 

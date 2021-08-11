@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * 
  * The  LockedMeUserInput class encapsulates console user input	handling for the LockedMeApplication
- * @author Binu T
+ * @author Binu Thankachan
  *
  */
 public class LockedMeUserInput {
@@ -38,6 +38,7 @@ public class LockedMeUserInput {
 	 */
 	public File getDirectoryPathFromUser() {
 		String path = sc.nextLine();
+		// instantiates directoryPath File object
 		directoryPath = new File(path);
 		return this.directoryPath;
 	}
@@ -60,6 +61,7 @@ public class LockedMeUserInput {
 			this.numLinesInFile = sc.nextInt();
 			sc.nextLine();
 		} else {
+			// set numLinesInFile to -1 to signal invalid input
 			this.numLinesInFile = -1;
 		}
 
@@ -68,7 +70,7 @@ public class LockedMeUserInput {
 	
 	/**
 	 * The getLineToAddToFileFromUser method retrieves the line to add to a file from console input.
-	 * @return
+	 * @return String
 	 */
 	public String getLineToAddToFileFromUser() {
 		String line = sc.nextLine();

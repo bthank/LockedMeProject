@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * The FileManager class encapsulates file handling functions for the LockedMeApplication
- * @author Binu T
+ * @author Binu Thankachan
  *
  */
 public class FileManager {
@@ -30,12 +30,26 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public static boolean directoryExists(File directoryPath) {
+		// gets directory path
 		Path path = Paths.get(directoryPath.getAbsolutePath());
 		boolean exists = true;
+		// checks if directory exists
 		if (!Files.exists(path)) {
 	    	exists = false; 			
 		}
 		return exists;
+	}
+	
+	public static boolean fileExists(File filePath) {
+		// gets file path
+		Path path = Paths.get(filePath.getAbsolutePath());
+		boolean exists = true;
+		// checks if file exists
+		if (!Files.exists(path)) {
+	    	exists = false; 			
+		}
+		return exists;		
+		
 	}
 	
 	/**
@@ -50,7 +64,7 @@ public class FileManager {
 		// check if directory exists before proceeding
 		boolean dirExists = directoryExists(directoryPath);
 		if (!dirExists) {
-	    	System.out.println("\n\n\t\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating directory list processing.     * * *\n");
+	    	System.out.println("\n\n\t\t* * *     No such directory exists.  Terminating directory list processing.     * * *\n");
 	    	return;
 		}
 		
@@ -113,27 +127,56 @@ public class FileManager {
 		String path = directoryPath.getAbsolutePath() + "/" + fileName;
 		// instantiate a fout File object using path
 		File fout = new File(path);
-		fout.getParentFile().mkdirs(); 
-		// create the new file in the directory
-		fout.createNewFile();
-
-		// create file output stream object instantiated using fout 
-		FileOutputStream fos = new FileOutputStream(fout);
-	 
-		// create buffered writer object passing new output stream writer object instantiated using fos
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-	 
-		// iterate through fileLines and write each line to the new file
-		for (int i = 0; i < numLinesToAddToFile; i++) {
-			String line = fileLines.get(i);
-			bw.write(line);
-			bw.newLine();
-		}
-	 
-		// close buffered writer object at the end
-		bw.close();
 		
-		System.out.println("\n\n\t\t* * *     File successfully added.     * * *\n");
+		
+		
+		try {
+			if (fout.exists()) {
+				System.out.println("\n\n\t\t* * *     CANNOT CREATE FILE.  THE FILE ALREADY EXISTS.     * * *\n");
+				return;
+		
+			} else {
+				
+				fout.getParentFile().mkdirs(); 
+				// create the new file in the directory
+				//fout.createNewFile();
+				fout.getCanonicalFile().createNewFile();
+
+				// create file output stream object instantiated using fout 
+				FileOutputStream fos = new FileOutputStream(fout);
+			 
+				// create buffered writer object passing new output stream writer object instantiated using fos
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+			 
+				// iterate through fileLines and write each line to the new file
+				for (int i = 0; i < numLinesToAddToFile; i++) {
+					String line = fileLines.get(i);
+					bw.write(line);
+					bw.newLine();
+				}
+			 
+				// close buffered writer object at the end
+				bw.close();
+				System.out.println("\n\n\t\t* * *     FILE CREATED SUCCESSFULLY     * * *\n");
+				return;
+				
+			}
+		}
+		// catch exceptions in most specific to least specific hierarchy
+        catch(NoSuchFileException e)
+        {
+            System.out.println("\n\n\t\tNo such file exists");
+        }
+        catch(IOException e)
+        {
+            System.out.println("\n\n\t\tI/O error occurred.");
+        }
+        catch(Exception e)
+        {
+            System.out.println("\n\n\t\tAn error occurred during add file processing.");
+        }
+
+		
 		return;
 		
 	}
@@ -212,11 +255,11 @@ public class FileManager {
 		// catch exceptions in most specific to least specific hierarchy
         catch(NoSuchFileException e)
         {
-            System.out.println("\n\n\t\tNo such file/directory exists");
+            System.out.println("\n\n\t\tNo such file exists");
         }
         catch(IOException e)
         {
-            System.out.println("\n\n\t\tInvalid permissions.");
+            System.out.println("\n\n\t\tI/O error occurred.");
         }
         catch(Exception e)
         {
