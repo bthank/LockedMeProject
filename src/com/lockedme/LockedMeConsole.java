@@ -1,7 +1,12 @@
 package com.lockedme;
 
-import java.util.Scanner;
 
+/**
+ * 
+ * The  LockedMeConsle class encapsulates console user prompt handling for the LockedMeApplication
+ * @author Binu T
+ *
+ */
 public class LockedMeConsole {
 	
 	 
@@ -12,8 +17,9 @@ public class LockedMeConsole {
 	
 	public void displayMenu() {
 		
-		System.out.println("\n===============================================================");
+		System.out.println("\n===============================================================\n");
 		System.out.println("\t\t\tLOCKEDME.COM");
+		System.out.println("\n===============================================================");
 		System.out.println("\nPlease select your file processing choice:\n");
 		System.out.println("1. List files in a directory in ascending order");
 		System.out.println("2. Add a file to a directory");
@@ -26,7 +32,7 @@ public class LockedMeConsole {
 	
 	public void displayEnterChoicePrompt() {
 		
-		System.out.println("\n\nEnter choice (1-5): ");
+		System.out.println("Enter choice (1-5): ");
 	}
 	
 	public void displayEnterDirectoryPrompt() {

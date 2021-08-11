@@ -6,7 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 
+ * The  LockedMeApplication class is the main entry point for the application
+ * @author Binu T
+ *
+ *
+ */
 public class LockedMeApplication {
 
 	

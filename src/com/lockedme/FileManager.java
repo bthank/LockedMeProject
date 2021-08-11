@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -61,9 +60,9 @@ public class FileManager {
 		// use Files.newDirectoryStream to stream the list of files in the directory
 	    try(DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.*")){
 	        
-	    	// iterate through the stream and save each file to the fileNames ArrayList
+	    	// iterate through the stream and save each file to the fileNames ArrayList in lowercase format for sorting
 	        for (Path entry: stream){
-	            fileNames.add(entry.getFileName().toString());
+	            fileNames.add(entry.getFileName().toString().toLowerCase());
 	        }
 	    }
 	    // catch exceptions from most specific to least specific
@@ -80,16 +79,9 @@ public class FileManager {
 	    	return;	         
 	    }		
 		
-		
-//		// retrieving all files into a File array
-//		File[] files = directoryPath.listFiles();
-//		// for loop to iterate through files array and get the individual file names and save them in fileNames collection
-//		for(File file: files) {
-//			fileNames.add(file.getName());
-//		}
 		// call Collections class sort method to sort the ArrayList in ascending order
 		Collections.sort(fileNames);
-		System.out.println("\n\tList of files and folders in the specified directory in ascending order:\n");
+		System.out.println("\n\tList of files in the specified directory in ascending order:\n");
 		// for loop to iterate through fileNames collection and display each file name
 		for (int i=0; i < fileNames.size(); i++) {
 			System.out.println("\t\t" + fileNames.get(i));
@@ -116,22 +108,28 @@ public class FileManager {
 	    	System.out.println("\n\t* * *     No such directory exists:  " + directoryPath.getAbsolutePath() + "  Terminating add file processing.     * * *\n");
 	    	return;
 		}
-		
+		// build path string variable with directory plus filename
 		String path = directoryPath.getAbsolutePath() + "/" + fileName;
+		// instantiate a fout File object using path
 		File fout = new File(path);
 		fout.getParentFile().mkdirs(); 
+		// create the new file in the directory
 		fout.createNewFile();
 
+		// create file output stream object instantiated using fout 
 		FileOutputStream fos = new FileOutputStream(fout);
 	 
+		// create buffered writer object passing new output stream writer object instantiated using fos
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 	 
+		// iterate through fileLines and write each line to the new file
 		for (int i = 0; i < numLinesToAddToFile; i++) {
 			String line = fileLines.get(i);
 			bw.write(line);
 			bw.newLine();
 		}
 	 
+		// close buffered writer object at the end
 		bw.close();
 		
 		System.out.println("\n\t* * *     File successfully added.     * * *\n");
@@ -175,25 +173,31 @@ public class FileManager {
 	    	return;
 		}
 		
-
+		// add absolute path of directory to file name and store in path variabe
 		String path = directoryPath.getAbsolutePath() + "/" + fileName;
 		try
         {
+			// call Files method to delete the file specified if it it exists
             Files.deleteIfExists(Paths.get(path));
         }
+		// catch exceptions from most specific to least specific
         catch(NoSuchFileException e)
         {
             System.out.println("No such file/directory exists");
         }
-        catch(DirectoryNotEmptyException e)
-        {
-            System.out.println("Directory is not empty.");
-        }
+//        catch(DirectoryNotEmptyException e)
+//        {
+//            System.out.println("Directory is not empty.");
+//        }
         catch(IOException e)
         {
             System.out.println("Invalid permissions.");
         }
-		
+        catch(Exception e)
+        {
+            System.out.println("An error occurred during delete file processing.");
+        }
+
 		System.out.println("\n\t* * *     File successfully deleted.     * * *\n");
 	}
 }

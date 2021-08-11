@@ -1,10 +1,14 @@
 package com.lockedme;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 
+ * The  LockedMeUserInput class encapsulates console user input	handling for the LockedMeApplication
+ * @author Binu T
+ *
+ */
 public class LockedMeUserInput {
 
 	private Scanner sc;
@@ -51,7 +55,6 @@ public class LockedMeUserInput {
 		String line = sc.nextLine();
 		return line;
 	}
-	
 	
 	public void closeScanner() {
 		if (sc != null)
